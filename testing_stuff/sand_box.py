@@ -1,11 +1,10 @@
 import tools
-import graph_metrics
 from igraph import *
+import graph_metrics
 from datetime import date, timedelta
 
 
 def calculate_graph_metrics(start_date, end_date, entities_types, relations_types):
-    # Article Article_Sentence Sentence
     path = "/home/iraklis/PycharmProjects/newsMiningVol2/WindowGraphs/"
     date_range_list = list(tools.date_range(start_date, end_date + timedelta(days=1)))
 
@@ -33,17 +32,31 @@ def calculate_graph_metrics(start_date, end_date, entities_types, relations_type
                 for edge in edges_list:
                     current_graph.add_edge(edge[0], edge[1], weight=edge[2])
 
-                global_metrics_dict_list['Avg_Degree'].append((mean(current_graph.degree()), current_day))
-                global_metrics_dict_list['Avg_W_Degree'].append((graph_metrics.avg_weighted_degree(current_graph),
-                                                                current_day))
-                global_metrics_dict_list['C_Coefficient'].append((current_graph.transitivity_avglocal_undirected(),
-                                                                  current_day))
-                louvain = current_graph.community_multilevel()
-                global_metrics_dict_list['Modularity'].append((current_graph.modularity(louvain), current_day))
-                global_metrics_dict_list['Avg_Path_Length'].append((current_graph.average_path_length(directed=False),
-                                                                    current_day))
-                print("OK")
-                w = input("Waiting")
+                print("Clustering Coefficient:")
+                print(current_graph.transitivity_undirected())  # clustering coefficient
+                print(current_graph.transitivity_avglocal_undirected())  # gephi like cc
+                print(current_graph.transitivity_local_undirected())
+                # print("Average Node Degree:")
+                # print(str(mean(current_graph.degree())))
+                # print(current_graph.degree())
+                # print("Average path length")
+                # print(current_graph.average_path_length(directed=False))
+                # print("Average Weighted Degree:")
+                # print(str(graph_metrics.avg_weighted_degree(current_graph)))
+                # print("Graph Density:")
+                # print(str(current_graph.density()))
+                # print("Graph Diameter:")
+                # print(str(current_graph.diameter()))
+                # print("Number of connected components:")
+                # print(str(len(current_graph.components())))
+                # print("Pagerank value for each node:")
+                # print(str(current_graph.pagerank()))
+                # # Getting the giant components vertices
+                # # giant_comp_nodes = current_graph.components()[0]
+                # # giant_comp = tools.get_subgraph(giant_comp_nodes, current_graph)
+                # print("Graph Modularity:")
+                # louvain = current_graph.community_multilevel()
+                # print(current_graph.modularity(louvain))
 
 
 if __name__ == "__main__":
