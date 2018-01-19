@@ -15,6 +15,7 @@ def calculate_graph_metrics(start_date, end_date, entities_types, relations_type
         for entity_type in entities_types:
             global_metrics_dict_list = defaultdict(list)
             for current_date in date_range_list:
+
                 # /home/iraklis/PycharmProjects/newsMiningVol2/WindowGraphs/Article/2-2018/2018-1-13/politicsEdgesL.csv
 
                 current_day = str(current_date.year) + "-" + str(current_date.month) + "-" + \
