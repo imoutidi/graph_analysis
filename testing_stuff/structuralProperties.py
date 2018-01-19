@@ -1,5 +1,6 @@
 from igraph import *
 
+
 g = Graph.GRG(30, 0.25)
 
 print(g.degree())
