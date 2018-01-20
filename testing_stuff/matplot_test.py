@@ -77,5 +77,38 @@ def stack_plot():
     plt.legend()
     plt.show()
 
-stack_plot()
+
+def pie_chart():
+    days = [1, 2, 3, 4, 5]
+    sleeping = [7, 8, 6, 7, 11]
+    working = [8, 9, 7, 8, 8]
+    eating = [2, 1, 3, 2, 1]
+    playing = [2, 3, 4, 2, 3]
+
+    slices = [7, 2, 3, 12]
+    activities = ['Sleeping', 'Eating', 'Working', 'Playing']
+    cols = ['c', 'm', 'r', 'y']
+    explode = (0, 0.2, 0, 0)
+
+    plt.pie(slices, explode=explode, labels=activities, colors=cols, startangle=90, shadow=True, autopct='%1.1f%%')
+    plt.axis('equal')
+
+    plt.title("Graph1")
+    plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

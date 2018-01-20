@@ -40,15 +40,14 @@ def calculate_graph_metrics(start_date, end_date, entities_types, relations_type
                 louvain = current_graph.community_multilevel()
                 global_metrics_dict_list['Modularity'].append(current_graph.modularity(louvain))
                 global_metrics_dict_list['Avg_Path_Length'].append(current_graph.average_path_length(directed=False))
+                global_metrics_dict_list['Density'].append(current_graph.density())
                 global_metrics_dict_list['Dates'].append(current_date)
 
-                print("OK")
-                # w = input("Waiting")
             plot_tools.draw_global_graphs(global_metrics_dict_list)
 
 
 if __name__ == "__main__":
     s_date = date(2018, 1, 13)
-    e_date = date(2018, 1, 18)
+    e_date = date(2018, 1, 19)
 
     calculate_graph_metrics(s_date, e_date, ["P"], ["Sentence"])
