@@ -37,6 +37,7 @@ def calculate_graph_metrics(start_date, end_date, entities_types, relations_type
                 print(current_graph.transitivity_undirected())  # clustering coefficient
                 print(current_graph.transitivity_avglocal_undirected())  # gephi like cc
                 print(current_graph.transitivity_local_undirected())
+                print(current_graph.vcount())
                 # print("Average Node Degree:")
                 # print(str(mean(current_graph.degree())))
                 # print(current_graph.degree())
@@ -65,6 +66,3 @@ if __name__ == "__main__":
     e_date = date(2018, 1, 17)
 
     calculate_graph_metrics(s_date, e_date, ["P"], ["Sentence"])
-
-
-

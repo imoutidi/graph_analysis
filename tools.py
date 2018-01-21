@@ -1,6 +1,8 @@
 import csv
 from datetime import date, timedelta
 from igraph import *
+import pymongo
+import tools
 
 
 def read_edges_csv(filename):
@@ -44,4 +46,21 @@ def get_subgraph(node_id_list, graph):
                                       node_id_list.index(edge.target), weight=edge['weight'])
 
     return giant_comp_graph
+
+
+def count_articles(last_date):
+    date_range_list = list(tools.date_range(last_date - timedelta(days=6), last_date + timedelta(days=1)))
+    art_num = 0
+    for c_date in date_range_list:
+        day = str(c_date.year) + "-" + str(c_date.month) + "-" + str(c_date.day)
+        current_week = str(c_date.isocalendar()[1]) + "-" + str(c_date.isocalendar()[0])
+
+        # Database stuff
+        # Getting data from the mongo database
+        client = pymongo.MongoClient()
+        # Database name is minedNews
+        db = client.minedArticles
+        art_num += db[current_week].count({"date": day})
+
+    return art_num
 

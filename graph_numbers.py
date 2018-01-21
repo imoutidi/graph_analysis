@@ -10,7 +10,6 @@ def calculate_graph_metrics(start_date, end_date, entities_types, relations_type
     path = "/home/iraklis/PycharmProjects/newsMiningVol2/WindowGraphs/"
     date_range_list = list(tools.date_range(start_date, end_date + timedelta(days=1)))
 
-
     # Article Article_Sentence Sentence
     for relation_type in relations_types:
         # P L O LO PL PO PLO
@@ -43,11 +42,17 @@ def calculate_graph_metrics(start_date, end_date, entities_types, relations_type
                 global_metrics_dict_list['Density'].append(current_graph.density())
                 global_metrics_dict_list['Dates'].append(current_date)
 
-            plot_tools.draw_global_graphs(global_metrics_dict_list)
+                global_metrics_dict_list['Connected_Components'].append(len(current_graph.components()))
+                global_metrics_dict_list['Number_of_Edges'].append(current_graph.ecount())
+                global_metrics_dict_list['Number_of_Nodes'].append(current_graph.vcount())
+                global_metrics_dict_list['Number_of_Articles'].append(tools.count_articles(current_date))
+
+            plot_tools.draw_global_metrics(global_metrics_dict_list)
+            plot_tools.draw_global_stats(global_metrics_dict_list)
 
 
 if __name__ == "__main__":
     s_date = date(2018, 1, 13)
-    e_date = date(2018, 1, 19)
+    e_date = date(2018, 1, 20)
 
     calculate_graph_metrics(s_date, e_date, ["P"], ["Sentence"])

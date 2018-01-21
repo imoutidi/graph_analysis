@@ -4,7 +4,7 @@ import matplotlib
 
 # Drawing plot of Clustering Coefficient, Degree, Weighted Degree,
 # Modularity and AVG Path Length
-def draw_global_graphs(global_dict_list):
+def draw_global_metrics(global_dict_list):
     dates = matplotlib.dates.date2num(global_dict_list['Dates'])
     cc = global_dict_list['C_Coefficient']
     avg_d = global_dict_list['Avg_Degree']
@@ -18,7 +18,6 @@ def draw_global_graphs(global_dict_list):
                       'Modularity', 'Density']
 
     figure, ax_plots = plt.subplots(2, 3)
-
     figure.set_size_inches(11, 7)
 
     for index, ax in enumerate(figure.axes):
@@ -30,7 +29,33 @@ def draw_global_graphs(global_dict_list):
 
     figure.suptitle('Graph Metrics')
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-
+    figure.savefig('Metrics.png', bbox_inches='tight')
     plt.show()
 
-    return 0
+
+def draw_global_stats(global_dict_list):
+    dates = matplotlib.dates.date2num(global_dict_list['Dates'])
+    con_comp = global_dict_list['Connected_Components']
+    node_num = global_dict_list['Number_of_Nodes']
+    edge_num = global_dict_list['Number_of_Edges']
+    art_num = global_dict_list['Number_of_Articles']
+
+    all_metrics = [con_comp, node_num, edge_num, art_num]
+    metrics_labels = ['Connected_Components', 'Number_of_Nodes', 'Number_of_Edges', 'Number_of_Articles']
+
+    figure, ax_plots = plt.subplots(2, 2)
+    figure.set_size_inches(11, 7)
+
+    for index, ax in enumerate(figure.axes):
+        ax.plot_date(dates, all_metrics[index], 'b-', marker='o')
+        ax.set_ylabel(metrics_labels[index])
+        ax.set_xlabel('Date')
+        matplotlib.pyplot.sca(ax)
+        plt.xticks(rotation=45)
+
+    figure.suptitle('Graph Statistics')
+    plt.tight_layout(rect=[0, 0.03, 1, 0.95])
+    figure.savefig('Statistics.png', bbox_inches='tight')
+    plt.show()
+
+
