@@ -33,11 +33,16 @@ def calculate_graph_metrics(start_date, end_date, entities_types, relations_type
                 for edge in edges_list:
                     current_graph.add_edge(edge[0], edge[1], weight=edge[2])
 
-                print("Clustering Coefficient:")
-                print(current_graph.transitivity_undirected())  # clustering coefficient
-                print(current_graph.transitivity_avglocal_undirected())  # gephi like cc
-                print(current_graph.transitivity_local_undirected())
-                print(current_graph.vcount())
+                mean(current_graph.betweenness(directed=False))
+                mean(current_graph.closeness())
+                mean(current_graph.eigenvector_centrality(directed=False))
+                mean(current_graph.personalized_pagerank(directed=False))
+                print("***************************************************\n")
+                # print("Clustering Coefficient:")
+                # print(current_graph.transitivity_undirected())  # clustering coefficient
+                # print(current_graph.transitivity_avglocal_undirected())  # gephi like cc
+                # print(current_graph.transitivity_local_undirected())
+                # print(current_graph.vcount())
                 # print("Average Node Degree:")
                 # print(str(mean(current_graph.degree())))
                 # print(current_graph.degree())

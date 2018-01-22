@@ -42,6 +42,12 @@ def calculate_graph_metrics(start_date, end_date, entities_types, relations_type
                 global_metrics_dict_list['Density'].append(current_graph.density())
                 global_metrics_dict_list['Dates'].append(current_date)
 
+                global_metrics_dict_list['Betweennes'].append(mean(current_graph.betweenness(directed=False)))
+                global_metrics_dict_list['Closeness'].append(mean(current_graph.closeness()))
+                global_metrics_dict_list['Eigenvector'].append(mean(current_graph.
+                                                                    eigenvector_centrality(directed=False)))
+                global_metrics_dict_list['Pagerank'].append(mean(current_graph.personalized_pagerank(directed=False)))
+
                 global_metrics_dict_list['Connected_Components'].append(len(current_graph.components()))
                 global_metrics_dict_list['Number_of_Edges'].append(current_graph.ecount())
                 global_metrics_dict_list['Number_of_Nodes'].append(current_graph.vcount())
@@ -49,10 +55,11 @@ def calculate_graph_metrics(start_date, end_date, entities_types, relations_type
 
             plot_tools.draw_global_metrics(global_metrics_dict_list)
             plot_tools.draw_global_stats(global_metrics_dict_list)
+            plot_tools.draw_global_centralities(global_metrics_dict_list)
 
 
 if __name__ == "__main__":
     s_date = date(2018, 1, 13)
-    e_date = date(2018, 1, 20)
+    e_date = date(2018, 1, 21)
 
     calculate_graph_metrics(s_date, e_date, ["P"], ["Sentence"])
