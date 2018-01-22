@@ -53,13 +53,14 @@ def calculate_graph_metrics(start_date, end_date, entities_types, relations_type
                 global_metrics_dict_list['Number_of_Nodes'].append(current_graph.vcount())
                 global_metrics_dict_list['Number_of_Articles'].append(tools.count_articles(current_date))
 
-            plot_tools.draw_global_metrics(global_metrics_dict_list)
-            plot_tools.draw_global_stats(global_metrics_dict_list)
-            plot_tools.draw_global_centralities(global_metrics_dict_list)
+            plot_tools.draw_global_metrics(global_metrics_dict_list, relation_type, entity_type)
+            plot_tools.draw_global_stats(global_metrics_dict_list, relation_type, entity_type)
+            plot_tools.draw_global_centralities(global_metrics_dict_list, relation_type, entity_type)
 
 
 if __name__ == "__main__":
     s_date = date(2018, 1, 13)
     e_date = date(2018, 1, 21)
 
-    calculate_graph_metrics(s_date, e_date, ["P"], ["Sentence"])
+    calculate_graph_metrics(s_date, e_date, ["P", "L", "O", "LO", "PL", "PO", "PLO"],
+                            ["Article", "Sentence", "Article_Sentence"])

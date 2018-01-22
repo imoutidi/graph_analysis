@@ -4,7 +4,7 @@ import matplotlib
 
 # Drawing plot of Clustering Coefficient, Degree, Weighted Degree,
 # Modularity and AVG Path Length
-def draw_global_metrics(global_dict_list):
+def draw_global_metrics(global_dict_list, rel_type, ent_type):
     dates = matplotlib.dates.date2num(global_dict_list['Dates'])
     cc = global_dict_list['C_Coefficient']
     avg_d = global_dict_list['Avg_Degree']
@@ -27,13 +27,13 @@ def draw_global_metrics(global_dict_list):
         matplotlib.pyplot.sca(ax)
         plt.xticks(rotation=45)
 
-    figure.suptitle('Graph Metrics')
+    figure.suptitle('Graph Metrics\n' + rel_type + " " + ent_type)
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-    figure.savefig('Metrics.png', bbox_inches='tight')
-    plt.show()
+    figure.savefig('Plots/' + rel_type + '/Metrics_' + rel_type + '_' + ent_type + '.png', bbox_inches='tight')
+    # plt.show()
 
 
-def draw_global_stats(global_dict_list):
+def draw_global_stats(global_dict_list, rel_type, ent_type):
     dates = matplotlib.dates.date2num(global_dict_list['Dates'])
     con_comp = global_dict_list['Connected_Components']
     node_num = global_dict_list['Number_of_Nodes']
@@ -53,13 +53,13 @@ def draw_global_stats(global_dict_list):
         matplotlib.pyplot.sca(ax)
         plt.xticks(rotation=45)
 
-    figure.suptitle('Graph Statistics')
+    figure.suptitle('Graph Statistics\n' + rel_type + " " + ent_type)
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-    figure.savefig('Statistics.png', bbox_inches='tight')
-    plt.show()
+    figure.savefig('Plots/' + rel_type + '/Statistics_' + rel_type + '_' + ent_type + '.png', bbox_inches='tight')
+    # plt.show()
 
 
-def draw_global_centralities(global_dict_list):
+def draw_global_centralities(global_dict_list, rel_type, ent_type):
     dates = matplotlib.dates.date2num(global_dict_list['Dates'])
     close = global_dict_list['Closeness']
     bet = global_dict_list['Betweennes']
@@ -79,10 +79,10 @@ def draw_global_centralities(global_dict_list):
         matplotlib.pyplot.sca(ax)
         plt.xticks(rotation=45)
 
-    figure.suptitle('Graph Centralities')
+    figure.suptitle('Graph Centralities\n' + rel_type + " " + ent_type)
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-    figure.savefig('Centralities.png', bbox_inches='tight')
-    plt.show()
+    figure.savefig('Plots/' + rel_type + '/Centralities_' + rel_type + '_' + ent_type + '.png', bbox_inches='tight')
+    # plt.show()
 
 
 
