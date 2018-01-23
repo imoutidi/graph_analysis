@@ -29,7 +29,7 @@ def draw_global_metrics(global_dict_list, rel_type, ent_type):
 
     figure.suptitle('Graph Metrics\n' + rel_type + " " + ent_type)
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-    figure.savefig('Plots/' + rel_type + '/Metrics_' + rel_type + '_' + ent_type + '.png', bbox_inches='tight')
+    figure.savefig('Plots/' + rel_type + '/' + ent_type + '/Metrics_' + rel_type + '_' + ent_type + '.png', bbox_inches='tight')
     # plt.show()
 
 
@@ -55,7 +55,8 @@ def draw_global_stats(global_dict_list, rel_type, ent_type):
 
     figure.suptitle('Graph Statistics\n' + rel_type + " " + ent_type)
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-    figure.savefig('Plots/' + rel_type + '/Statistics_' + rel_type + '_' + ent_type + '.png', bbox_inches='tight')
+    figure.savefig('Plots/' + rel_type + '/' + ent_type + '/Statistics_' +
+                   rel_type + '_' + ent_type + '.png', bbox_inches='tight')
     # plt.show()
 
 
@@ -81,7 +82,8 @@ def draw_global_centralities(global_dict_list, rel_type, ent_type):
 
     figure.suptitle('Graph Centralities\n' + rel_type + " " + ent_type)
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-    figure.savefig('Plots/' + rel_type + '/Centralities_' + rel_type + '_' + ent_type + '.png', bbox_inches='tight')
+    figure.savefig('Plots/' + rel_type + '/' + ent_type + '/Centralities_' +
+                   rel_type + '_' + ent_type + '.png', bbox_inches='tight')
     # plt.show()
 
 

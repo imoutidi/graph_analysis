@@ -2,7 +2,6 @@ import csv
 from datetime import date, timedelta
 from igraph import *
 import pymongo
-import tools
 
 
 def read_edges_csv(filename):
@@ -49,7 +48,7 @@ def get_subgraph(node_id_list, graph):
 
 
 def count_articles(last_date):
-    date_range_list = list(tools.date_range(last_date - timedelta(days=6), last_date + timedelta(days=1)))
+    date_range_list = list(date_range(last_date - timedelta(days=6), last_date + timedelta(days=1)))
     art_num = 0
     for c_date in date_range_list:
         day = str(c_date.year) + "-" + str(c_date.month) + "-" + str(c_date.day)
