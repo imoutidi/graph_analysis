@@ -7,6 +7,8 @@ import multiprocessing
 from itertools import repeat
 from datetime import date, timedelta
 
+import time
+
 
 def calculate_graph_metrics(start_date, end_date, entities_types, relations_types):
     # Article Article_Sentence Sentence
@@ -130,25 +132,28 @@ def incremental_graph_metrics(current_date, entities_types, relations_types):
 # calculate_graph_metrics with many arguments
 def function_wrapper(ent_types):
     # call the target function
-    return calculate_graph_metrics(s_date, e_date, ent_types, relation_types)
+    return incremental_graph_metrics(e_date, ent_types, relation_types)
 
 
 if __name__ == "__main__":
+    start_time = time.time()
     s_date = date(2018, 1, 13)
     e_date = date(2018, 1, 22)
 
-    # par_entity_types = [["P"], ["L"], ["O"], ["LO"], ["PL"], ["PO"], ["PLO"]]
-    ser_entity_types = ["P", "L", "O", "LO", "PL", "PO", "PLO"]
+    par_entity_types = [["P"], ["L"], ["O"], ["LO"], ["PL"], ["PO"], ["PLO"]]
+    # ser_entity_types = ["P", "L", "O", "LO", "PL", "PO", "PLO"]
     relation_types = ["Article", "Sentence", "Article_Sentence"]
 
     # Serial
     # calculate_graph_metrics(s_date, e_date, ser_entity_types, relation_types)
 
     # Parallel
-    # num_of_cpus = len(entity_types)
-    # p = multiprocessing.Pool(processes=num_of_cpus)
-    # pool_persons_distances = p.map(function_wrapper, entity_types)
-    # p.close()
-    # p.join()
+    num_of_cpus = len(par_entity_types)
+    p = multiprocessing.Pool(processes=num_of_cpus)
+    pool_persons_distances = p.map(function_wrapper, par_entity_types)
+    p.close()
+    p.join()
 
-    incremental_graph_metrics(e_date, ser_entity_types, relation_types)
+    print("--- %s seconds ---" % (time.time() - start_time))
+
+    # incremental_graph_metrics(e_date, par_entity_types, relation_types)
