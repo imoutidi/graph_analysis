@@ -4,6 +4,24 @@ from igraph import *
 import pymongo
 
 
+def form_graph(c_date, r_type, e_type):
+    path = "/home/iraklis/PycharmProjects/newsMiningVol2/WindowGraphs/"
+
+    current_day = str(c_date.year) + "-" + str(c_date.month) + "-" + str(c_date.day)
+    current_week = str(c_date.isocalendar()[1]) + "-" + str(c_date.isocalendar()[0])
+    nodes_list = read_nodes_csv(path + r_type + "/" + current_week + "/" + current_day
+                                + "/" + "politicsNodes" + e_type + ".csv")
+    edges_list = read_edges_csv(path + r_type + "/" + current_week + "/" + current_day
+                                + "/" + "politicsEdges" + e_type + ".csv")
+    # Adding nodes to graph
+    c_graph = Graph(n=len(nodes_list), vertex_attrs={'name': nodes_list})
+    # Adding edges to graph
+    for edge in edges_list:
+        c_graph.add_edge(edge[0], edge[1], weight=edge[2])
+
+    return c_graph
+
+
 def read_edges_csv(filename):
     edge_list = list()
     csv_reader = csv.reader(open(filename), delimiter=',', quotechar='"')

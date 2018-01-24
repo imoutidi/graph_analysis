@@ -12,7 +12,6 @@ import time
 
 def calculate_graph_metrics(start_date, end_date, entities_types, relations_types):
     # Article Article_Sentence Sentence
-    path = "/home/iraklis/PycharmProjects/newsMiningVol2/WindowGraphs/"
     date_range_list = list(tools.date_range(start_date, end_date + timedelta(days=1)))
 
     # Article Article_Sentence Sentence
@@ -21,22 +20,7 @@ def calculate_graph_metrics(start_date, end_date, entities_types, relations_type
         for entity_type in entities_types:
             global_metrics_dict_list = defaultdict(list)
             for current_date in date_range_list:
-                # /home/iraklis/PycharmProjects/newsMiningVol2/WindowGraphs/Article/2-2018/2018-1-13/politicsEdgesL.csv
-
-                current_day = str(current_date.year) + "-" + str(current_date.month) + "-" + \
-                              str(current_date.day)
-                # current_week = str(current_date.strftime("%W")) + "-" + str(current_date.strftime("%Y"))
-                current_week = str(current_date.isocalendar()[1]) + "-" + \
-                                              str(current_date.isocalendar()[0])
-                nodes_list = tools.read_nodes_csv(path + relation_type + "/" + current_week + "/" + current_day
-                                                  + "/" + "politicsNodes" + entity_type + ".csv")
-                edges_list = tools.read_edges_csv(path + relation_type + "/" + current_week + "/" + current_day
-                                                  + "/" + "politicsEdges" + entity_type + ".csv")
-
-                current_graph = Graph(n=len(nodes_list), vertex_attrs={'name': nodes_list})
-
-                for edge in edges_list:
-                    current_graph.add_edge(edge[0], edge[1], weight=edge[2])
+                current_graph = tools.form_graph(current_date, relation_type, entity_type)
 
                 global_metrics_dict_list['Avg_Degree'].append(mean(current_graph.degree()))
                 global_metrics_dict_list['Avg_W_Degree'].append(graph_metrics.avg_weighted_degree(current_graph))
@@ -71,9 +55,6 @@ def calculate_graph_metrics(start_date, end_date, entities_types, relations_type
 # calculating the plot by adding the current day
 def incremental_graph_metrics(current_date, entities_types, relations_types):
     # Article Article_Sentence Sentence
-    path = "/home/iraklis/PycharmProjects/newsMiningVol2/WindowGraphs/"
-
-    # Article Article_Sentence Sentence
     for relation_type in relations_types:
         # P L O LO PL PO PLO
         for entity_type in entities_types:
@@ -83,18 +64,7 @@ def incremental_graph_metrics(current_date, entities_types, relations_types):
             global_metrics_dict_list = pickle.load(load_metrics)
             load_metrics.close()
 
-            current_day = str(current_date.year) + "-" + str(current_date.month) + "-" + \
-                          str(current_date.day)
-            current_week = str(current_date.isocalendar()[1]) + "-" + str(current_date.isocalendar()[0])
-            nodes_list = tools.read_nodes_csv(path + relation_type + "/" + current_week + "/" + current_day
-                                              + "/" + "politicsNodes" + entity_type + ".csv")
-            edges_list = tools.read_edges_csv(path + relation_type + "/" + current_week + "/" + current_day
-                                              + "/" + "politicsEdges" + entity_type + ".csv")
-            # Adding nodes to graph
-            current_graph = Graph(n=len(nodes_list), vertex_attrs={'name': nodes_list})
-            # Adding edges to graph
-            for edge in edges_list:
-                current_graph.add_edge(edge[0], edge[1], weight=edge[2])
+            current_graph = tools.form_graph(current_date, relation_type, entity_type)
 
             global_metrics_dict_list['Avg_Degree'].append(mean(current_graph.degree()))
             global_metrics_dict_list['Avg_W_Degree'].append(graph_metrics.avg_weighted_degree(current_graph))
@@ -138,7 +108,7 @@ def function_wrapper(ent_types):
 if __name__ == "__main__":
     start_time = time.time()
     s_date = date(2018, 1, 13)
-    e_date = date(2018, 1, 22)
+    e_date = date(2018, 1, 23)
 
     par_entity_types = [["P"], ["L"], ["O"], ["LO"], ["PL"], ["PO"], ["PLO"]]
     # ser_entity_types = ["P", "L", "O", "LO", "PL", "PO", "PLO"]
@@ -155,5 +125,6 @@ if __name__ == "__main__":
     p.join()
 
     print("--- %s seconds ---" % (time.time() - start_time))
+    # --- 166.21 seconds ---
 
     # incremental_graph_metrics(e_date, par_entity_types, relation_types)
