@@ -37,24 +37,16 @@ def count_entity_articles(start_date, end_date, entity_name):
     return sum(appear_per_day)
 
 
-def top_ten_stats():
-    ser_entity_types = ["P", "L", "O", "LO", "PL", "PO", "PLO"]
-    relation_types = ["Article", "Sentence", "Article_Sentence"]
+def appearances(name_list, end_date):
 
-    for entity_type in ser_entity_types:
-        for relation_type in relation_types:
-            load_metrics = open("/home/iraklis/PycharmProjects/graph_analysis/pickle_files/"
-                                + relation_type + "_" + entity_type + "_dict.pickle", "rb")
-            global_metrics_dict_list = pickle.dump(load_metrics)
-            load_metrics.close()
+    start_date = date(2018, 1, 7)
+    # e_date = date(2018, 1, 23)
+    list_of_ap = list()
 
+    for name in name_list:
+        list_of_ap.append(count_entity_articles(start_date, end_date, name))
 
-
-
-    s_date = date(2018, 1, 7)
-    e_date = date(2018, 1, 23)
-    print(count_entity_articles(s_date, e_date, "Theresa May"))
-
+    return list_of_ap
 
 
 

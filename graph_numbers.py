@@ -98,33 +98,34 @@ def incremental_graph_metrics(current_date, entities_types, relations_types):
             plot_tools.draw_global_centralities(global_metrics_dict_list, relation_type, entity_type)
 
 
-# Pivot function to be able to parallel call
-# calculate_graph_metrics with many arguments
-def function_wrapper(ent_types):
-    # call the target function
-    return incremental_graph_metrics(e_date, ent_types, relation_types)
+def run_in_parallel(fns, in_date, test_ent_types, test_rel_types):
+    proc = []
+    list_rels = [["Article"], ["Sentence"], ["Article_Sentence"]]
+    for ent_type in test_ent_types:
+        p = multiprocessing.Process(target=fns, args=(in_date, ent_type, test_rel_types,))
+        p.start()
+        proc.append(p)
+    for rel_type in list_rels:
+        p2 = multiprocessing.Process(target=fns, args=(in_date, ["PLO"], rel_type,))
+        p2.start()
+        proc.append(p2)
+    for pr in proc:
+        pr.join()
 
 
 if __name__ == "__main__":
     start_time = time.time()
     s_date = date(2018, 1, 13)
-    e_date = date(2018, 1, 23)
+    e_date = date(2018, 1, 24)
 
-    par_entity_types = [["P"], ["L"], ["O"], ["LO"], ["PL"], ["PO"], ["PLO"]]
+    par_entity_types = [["P", "L", "O"], ["LO"], ["PL"], ["PO"]]
     # ser_entity_types = ["P", "L", "O", "LO", "PL", "PO", "PLO"]
     relation_types = ["Article", "Sentence", "Article_Sentence"]
 
     # Serial
     # calculate_graph_metrics(s_date, e_date, ser_entity_types, relation_types)
 
-    # Parallel
-    num_of_cpus = len(par_entity_types)
-    p = multiprocessing.Pool(processes=num_of_cpus)
-    pool_persons_distances = p.map(function_wrapper, par_entity_types)
-    p.close()
-    p.join()
-
+    # Parallel and incremental
+    run_in_parallel(incremental_graph_metrics, e_date, par_entity_types, relation_types)
     print("--- %s seconds ---" % (time.time() - start_time))
-    # --- 166.21 seconds ---
-
-    # incremental_graph_metrics(e_date, par_entity_types, relation_types)
+    # --- 108.33 seconds ---

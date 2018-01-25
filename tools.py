@@ -81,3 +81,28 @@ def count_articles(last_date):
 
     return art_num
 
+
+def top_ten(end_date):
+    s_date = date(2018, 1, 13)
+    entities_types = ["P", "L", "O", "LO", "PL", "PO", "PLO"]
+    relations_types = ["Article", "Sentence", "Article_Sentence"]
+    date_range_list = list(date_range(s_date, end_date + timedelta(days=1)))
+
+    # Article Article_Sentence Sentence
+    for relation_type in relations_types:
+        # P L O LO PL PO PLO
+        for entity_type in entities_types:
+            global_metrics_dict_list = defaultdict(list)
+            for current_date in date_range_list:
+                current_graph = form_graph(current_date, relation_type, entity_type)
+
+                degree_list = current_graph.degree()
+                sorted_list = sorted(range(len(degree_list)), key=lambda k: degree_list[k], reverse=True)
+                print(current_graph.vs['name'][41])
+                print(sorted_list)
+                w = input("Wait:")
+
+
+if __name__ == "__main__":
+    n_date = date(2018, 1, 13)
+    top_ten(n_date)
