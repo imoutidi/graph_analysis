@@ -1,5 +1,6 @@
 import pymongo
 import tools
+import plot_tools
 import pickle
 from datetime import date, timedelta
 
@@ -33,20 +34,25 @@ def count_entity_articles(start_date, end_date, entity_name):
         # counting the elements of the generator
         appear_per_day.append(sum(1 for _ in docs))
 
-    print(appear_per_day)
-    return sum(appear_per_day)
+    return appear_per_day
 
 
-def appearances(name_list, end_date):
+def plot_appearances(name_list, end_date):
 
     start_date = date(2018, 1, 7)
     # e_date = date(2018, 1, 23)
     list_of_ap = list()
 
-    for name in name_list:
-        list_of_ap.append(count_entity_articles(start_date, end_date, name))
+    date_range_list = list(tools.date_range(s_date, e_date + timedelta(days=1)))
 
-    return list_of_ap
+    for idx, in_name in enumerate(name_list):
+        list_of_ap.append(count_entity_articles(start_date, end_date, in_name))
+        plot_tools.draw_entities_plot(in_name, list_of_ap[idx], date_range_list, "Article Appearances")
 
 
+if __name__ == "__main__":
+    s_date = date(2018, 1, 7)
+    e_date = date(2018, 1, 28)
+    names = ["Theresa May", "Boris Johnson", "Jeremy Corbyn", "David Davis", "Donald Trump", "Nigel Farage"]
 
+    plot_appearances(names, e_date)

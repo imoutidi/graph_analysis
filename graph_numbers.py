@@ -4,7 +4,6 @@ import plot_tools
 import graph_metrics
 from igraph import *
 import multiprocessing
-from itertools import repeat
 from datetime import date, timedelta
 
 import time
@@ -98,11 +97,15 @@ def incremental_graph_metrics(current_date, entities_types, relations_types):
             plot_tools.draw_global_centralities(global_metrics_dict_list, relation_type, entity_type)
 
 
-def run_in_parallel(fns, in_date, test_ent_types, test_rel_types):
+def run_in_parallel(fns, in_date):
     proc = []
+    # The computations on the PLO graphs are taking most of the time so we
+    # assign one core for each PLO graph (second for loop)
     list_rels = [["Article"], ["Sentence"], ["Article_Sentence"]]
-    for ent_type in test_ent_types:
-        p = multiprocessing.Process(target=fns, args=(in_date, ent_type, test_rel_types,))
+    ent_types = [["P", "L", "O"], ["LO"], ["PL"], ["PO"]]
+    rel_types = ["Article", "Sentence", "Article_Sentence"]
+    for ent_type in ent_types:
+        p = multiprocessing.Process(target=fns, args=(in_date, ent_type, rel_types,))
         p.start()
         proc.append(p)
     for rel_type in list_rels:
@@ -116,16 +119,13 @@ def run_in_parallel(fns, in_date, test_ent_types, test_rel_types):
 if __name__ == "__main__":
     start_time = time.time()
     s_date = date(2018, 1, 13)
-    e_date = date(2018, 1, 24)
-
-    par_entity_types = [["P", "L", "O"], ["LO"], ["PL"], ["PO"]]
+    e_date = date(2018, 1, 28)
     # ser_entity_types = ["P", "L", "O", "LO", "PL", "PO", "PLO"]
-    relation_types = ["Article", "Sentence", "Article_Sentence"]
 
     # Serial
     # calculate_graph_metrics(s_date, e_date, ser_entity_types, relation_types)
 
     # Parallel and incremental
-    run_in_parallel(incremental_graph_metrics, e_date, par_entity_types, relation_types)
+    run_in_parallel(incremental_graph_metrics, e_date)
     print("--- %s seconds ---" % (time.time() - start_time))
     # --- 108.33 seconds ---

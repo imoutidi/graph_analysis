@@ -84,13 +84,16 @@ def draw_global_centralities(global_dict_list, rel_type, ent_type):
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])
     figure.savefig('Plots/' + rel_type + '/' + ent_type + '/Centralities_' +
                    rel_type + '_' + ent_type + '.png', bbox_inches='tight')
-    # plt.show()
 
 
+def draw_entities_plot(en_name, value_list, in_dates, value_name):
 
-
-
-
-
-
-
+    plt.figure(figsize=(10, 7))
+    plt.plot_date(in_dates, value_list, 'b-', marker='o', color='r')
+    plt.xlabel("Date")
+    plt.ylabel(value_name)
+    plt.title(en_name)
+    plt.xticks(rotation=45)
+    plt.savefig('/home/iraklis/PycharmProjects/graph_analysis/Plots/'
+                'Appearances_in_Article/' + en_name + '.png', bbox_inches='tight')
+    plt.show()

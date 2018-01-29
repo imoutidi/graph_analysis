@@ -1,7 +1,9 @@
 import csv
+import plot_tools
 from datetime import date, timedelta
 from igraph import *
 import pymongo
+import graph_metrics
 
 
 def form_graph(c_date, r_type, e_type):
@@ -82,27 +84,43 @@ def count_articles(last_date):
     return art_num
 
 
-def top_ten(end_date):
+# Here we will calculate the common nodes similarities for the graph
+def common_nodes(end_date):
+    # The first window graph we got
     s_date = date(2018, 1, 13)
-    entities_types = ["P", "L", "O", "LO", "PL", "PO", "PLO"]
-    relations_types = ["Article", "Sentence", "Article_Sentence"]
+    # entities_types = ["P", "L", "O", "LO", "PL", "PO", "PLO"]
+    # relations_types = ["Article", "Sentence", "Article_Sentence"]
+    entities_types = ["P"]
+    relations_types = ["Sentence"]
     date_range_list = list(date_range(s_date, end_date + timedelta(days=1)))
 
     # Article Article_Sentence Sentence
     for relation_type in relations_types:
         # P L O LO PL PO PLO
         for entity_type in entities_types:
-            global_metrics_dict_list = defaultdict(list)
+            name_list = list()
+            val_lol = list()
+
             for current_date in date_range_list:
                 current_graph = form_graph(current_date, relation_type, entity_type)
-
+                print(relation_type + " " + entity_type + " " + str(current_date) + "\n")
+                # The current_graph.degree() functions returns a list with the degrees nodes
+                # that correspond to the same index
                 degree_list = current_graph.degree()
-                sorted_list = sorted(range(len(degree_list)), key=lambda k: degree_list[k], reverse=True)
-                print(current_graph.vs['name'][41])
-                print(sorted_list)
-                w = input("Wait:")
+                # The sorted list contains the indexes of the nodes sorted regarding the max degree
+                sorted_degree = sorted(range(len(degree_list)), key=lambda k: degree_list[k], reverse=True)
+
+
+                print(current_graph.vs['name'][sorted_degree[0]] + " " + str(degree_list[sorted_degree[0]]))
+                plot_tools.draw_entities_plot()
+
+                w_degree_list = graph_metrics.weighted_degree(current_graph)
+                sorted_w_degree = sorted(range(len(w_degree_list)), key=lambda k: w_degree_list[k], reverse=True)
+
+                bet_list = current_graph.betweenness(directed=False)
+                sorted_bet_list = sorted(range(len(bet_list)), key=lambda k: bet_list[k], reverse=True)
+
 
 
 if __name__ == "__main__":
-    n_date = date(2018, 1, 13)
-    top_ten(n_date)
+    n_date = date(2018, 1, 25)
