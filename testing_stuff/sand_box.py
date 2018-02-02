@@ -38,6 +38,8 @@ def calculate_graph_metrics(start_date, end_date, entities_types, relations_type
                 mean(current_graph.eigenvector_centrality(directed=False))
                 mean(current_graph.personalized_pagerank(directed=False))
                 print("***************************************************\n")
+                print(current_graph.edge_betweenness(directed=False))
+                print(current_graph.es[2].tuple)
                 # print("Clustering Coefficient:")
                 # print(current_graph.transitivity_undirected())  # clustering coefficient
                 # print(current_graph.transitivity_avglocal_undirected())  # gephi like cc

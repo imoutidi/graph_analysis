@@ -64,9 +64,16 @@ def incremental_graph_metrics(current_date, entities_types, relations_types):
             load_metrics.close()
 
             current_graph = tools.form_graph(current_date, relation_type, entity_type)
+            # Metrics to use for affinity matrix
+            degree_list = current_graph.degree()
+            weighted_degree_list = graph_metrics.weighted_degree(current_graph)
+            betweenness_list = current_graph.betweenness(directed=False)
+            closeness_list = current_graph.closeness()
+            eigenvector_list = current_graph.eigenvector_centrality(directed=False)
+            pagerank_list = current_graph.personalized_pagerank(directed=False)
 
-            global_metrics_dict_list['Avg_Degree'].append(mean(current_graph.degree()))
-            global_metrics_dict_list['Avg_W_Degree'].append(graph_metrics.avg_weighted_degree(current_graph))
+            global_metrics_dict_list['Avg_Degree'].append(mean(degree_list))
+            global_metrics_dict_list['Avg_W_Degree'].append(mean(weighted_degree_list))
             global_metrics_dict_list['C_Coefficient'].append(current_graph.transitivity_avglocal_undirected())
             louvain = current_graph.community_multilevel()
             global_metrics_dict_list['Modularity'].append(current_graph.modularity(louvain))
@@ -74,11 +81,11 @@ def incremental_graph_metrics(current_date, entities_types, relations_types):
             global_metrics_dict_list['Density'].append(current_graph.density())
             global_metrics_dict_list['Dates'].append(current_date)
 
-            global_metrics_dict_list['Betweennes'].append(mean(current_graph.betweenness(directed=False)))
-            global_metrics_dict_list['Closeness'].append(mean(current_graph.closeness()))
-            global_metrics_dict_list['Eigenvector'].append(mean(current_graph.
-                                                                eigenvector_centrality(directed=False)))
-            global_metrics_dict_list['Pagerank'].append(mean(current_graph.personalized_pagerank(directed=False)))
+            global_metrics_dict_list['Betweennes'].append(mean(betweenness_list))
+            global_metrics_dict_list['Closeness'].append(mean(closeness_list))
+            global_metrics_dict_list['Eigenvector'].append(mean(eigenvector_list))
+            global_metrics_dict_list['Pagerank'].append(mean(pagerank_list))
+
 
             global_metrics_dict_list['Connected_Components'].append(len(current_graph.components()))
             global_metrics_dict_list['Number_of_Edges'].append(current_graph.ecount())
@@ -91,7 +98,7 @@ def incremental_graph_metrics(current_date, entities_types, relations_types):
             pickle.dump(global_metrics_dict_list, save_metrics)
             save_metrics.close()
 
-            print(str(entities_types) + "a")
+            print(str(entities_types) + " " + str(relations_types))
             plot_tools.draw_global_metrics(global_metrics_dict_list, relation_type, entity_type)
             plot_tools.draw_global_stats(global_metrics_dict_list, relation_type, entity_type)
             plot_tools.draw_global_centralities(global_metrics_dict_list, relation_type, entity_type)
@@ -119,7 +126,7 @@ def run_in_parallel(fns, in_date):
 if __name__ == "__main__":
     start_time = time.time()
     s_date = date(2018, 1, 13)
-    e_date = date(2018, 1, 28)
+    e_date = date(2018, 2, 1)
     # ser_entity_types = ["P", "L", "O", "LO", "PL", "PO", "PLO"]
 
     # Serial

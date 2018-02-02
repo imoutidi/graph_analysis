@@ -52,7 +52,9 @@ def plot_appearances(name_list, end_date):
 
 if __name__ == "__main__":
     s_date = date(2018, 1, 7)
-    e_date = date(2018, 1, 28)
-    names = ["Theresa May", "Boris Johnson", "Jeremy Corbyn", "David Davis", "Donald Trump", "Nigel Farage"]
+    e_date = date(2018, 1, 31)
+    # names = ["Theresa May", "Boris Johnson", "Jeremy Corbyn", "David Davis", "Donald Trump", "Nigel Farage"]
+    names = ["Carillion", "NHS", "Labour", "Tory"]
+    # names = ["EU", "UK", "US", "UN"]
 
     plot_appearances(names, e_date)

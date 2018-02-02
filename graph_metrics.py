@@ -2,7 +2,6 @@ from igraph import *
 
 
 def avg_weighted_degree(graph):
-
     graph_weight_sum = 0
     for i in range(graph.vcount()):
         node_weight_sum = 0
