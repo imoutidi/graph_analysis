@@ -89,7 +89,7 @@ def count_articles(last_date):
 def calculate_metrics_lists(end_date, relation_type, entity_type):
     # The date of the creation of the first graph
     s_date = date(2018, 1, 13)
-
+    # TODO make changes so it will work only for one day.
     date_range_list = list(date_range(s_date, end_date + timedelta(days=1)))
     # each element of the outer list corresponds to a date
     date_dir = "/home/iraklis/PycharmProjects/graph_analysis/node_metrics/"

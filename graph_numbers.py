@@ -126,7 +126,7 @@ def run_in_parallel(fns, in_date):
 if __name__ == "__main__":
     start_time = time.time()
     s_date = date(2018, 1, 13)
-    e_date = date(2018, 2, 2)
+    e_date = date.today() - timedelta(1)
     # ser_entity_types = ["P", "L", "O", "LO", "PL", "PO", "PLO"]
 
     # Serial
