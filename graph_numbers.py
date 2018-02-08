@@ -86,7 +86,6 @@ def incremental_graph_metrics(current_date, entities_types, relations_types):
             global_metrics_dict_list['Eigenvector'].append(mean(eigenvector_list))
             global_metrics_dict_list['Pagerank'].append(mean(pagerank_list))
 
-
             global_metrics_dict_list['Connected_Components'].append(len(current_graph.components()))
             global_metrics_dict_list['Number_of_Edges'].append(current_graph.ecount())
             global_metrics_dict_list['Number_of_Nodes'].append(current_graph.vcount())
@@ -123,16 +122,17 @@ def run_in_parallel(fns, in_date):
         pr.join()
 
 
-if __name__ == "__main__":
-    start_time = time.time()
-    s_date = date(2018, 1, 13)
-    e_date = date.today() - timedelta(1)
-    # ser_entity_types = ["P", "L", "O", "LO", "PL", "PO", "PLO"]
+# if __name__ == "__main__":
+# start_time = time.time()
+s_date = date(2018, 1, 13)
+e_date = date.today() - timedelta(1)
+# e_date = date(2018, 2, 5)
+# ser_entity_types = ["P", "L", "O", "LO", "PL", "PO", "PLO"]
 
-    # Serial
-    # calculate_graph_metrics(s_date, e_date, ser_entity_types, relation_types)
+# Serial
+# calculate_graph_metrics(s_date, e_date, ser_entity_types, relation_types)
 
-    # Parallel and incremental
-    run_in_parallel(incremental_graph_metrics, e_date)
-    print("--- %s seconds ---" % (time.time() - start_time))
-    # --- 108.33 seconds ---
+# Parallel and incremental
+run_in_parallel(incremental_graph_metrics, e_date)
+# print("--- %s seconds ---" % (time.time() - start_time))
+# --- 108.33 seconds ---

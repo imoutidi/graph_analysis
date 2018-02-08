@@ -43,6 +43,7 @@ def create_plot_data(data):
 
 def draw(v, f):
     plt.scatter(v, f, label='Value', color='green')
+    # plt.errorbar(v, f, yerr=10)
     plt.xlabel("Value")
     plt.ylabel("Frequency")
     plt.title("Distribution")
@@ -57,35 +58,28 @@ parameters = eval("stats.powerlaw.fit(degree_list)")
 print(stats.kstest(degree_list, "powerlaw", args=parameters))
 val, freq = create_plot_data(degree_list)
 
-log_val = [log10(i) for i in val[1:]]
-log_freq = [log10(i) for i in freq[1:]]
+# log_val = [log10(i) for i in val[1:]]
+# log_freq = [log10(i) for i in freq[1:]]
 
-draw(log_val, log_freq)
+draw(val, freq)
+
 
 
 weighed_degree_list = graph_metrics.weighted_degree(current_graph)
 val, freq = create_plot_data(weighed_degree_list)
 
-log_val = [log10(i) for i in val[1:]]
-log_freq = [log10(i) for i in freq[1:]]
 
-draw(log_val, log_freq)
+draw(val, freq)
 
 betweenness_list = current_graph.betweenness(directed=False)
 val, freq = create_plot_data(betweenness_list)
 
-log_val = [log10(i) for i in val[1:]]
-log_freq = [log10(i) for i in freq[1:]]
-
-draw(log_val, log_freq)
+draw(val, freq)
 
 closeness_list = current_graph.closeness()
 val, freq = create_plot_data(closeness_list)
 
-log_val = [log10(i) for i in val[1:]]
-log_freq = [log10(i) for i in freq[1:]]
-
-draw(log_val, log_freq)
+draw(val, freq)
 
 eigenvector_list = current_graph.eigenvector_centrality(directed=False)
 val, freq = create_plot_data(eigenvector_list)

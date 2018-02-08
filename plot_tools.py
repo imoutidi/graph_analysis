@@ -1,6 +1,5 @@
-import matplotlib.pyplot as plt
 import matplotlib
-
+import matplotlib.pyplot as plt
 
 # Drawing plot of Clustering Coefficient, Degree, Weighted Degree,
 # Modularity and AVG Path Length
@@ -21,7 +20,7 @@ def draw_global_metrics(global_dict_list, rel_type, ent_type):
     figure.set_size_inches(11, 7)
 
     for index, ax in enumerate(figure.axes):
-        ax.plot_date(dates, all_metrics[index], 'b-', marker='o')
+        ax.plot_date(dates, all_metrics[index], 'b-')
         ax.set_ylabel(metrics_labels[index])
         ax.set_xlabel('Date')
         matplotlib.pyplot.sca(ax)
@@ -29,7 +28,7 @@ def draw_global_metrics(global_dict_list, rel_type, ent_type):
 
     figure.suptitle('Graph Metrics\n' + rel_type + " " + ent_type)
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-    figure.savefig('Plots/' + rel_type + '/' + ent_type + '/Metrics_' + rel_type + '_' + ent_type + '.png', bbox_inches='tight')
+    figure.savefig('/home/iraklis/PycharmProjects/graph_analysis/Plots/' + rel_type + '/' + ent_type + '/Metrics_' + rel_type + '_' + ent_type + '.png', bbox_inches='tight')
     # plt.show()
 
 
@@ -55,7 +54,7 @@ def draw_global_stats(global_dict_list, rel_type, ent_type):
 
     figure.suptitle('Graph Statistics\n' + rel_type + " " + ent_type)
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-    figure.savefig('Plots/' + rel_type + '/' + ent_type + '/Statistics_' +
+    figure.savefig('/home/iraklis/PycharmProjects/graph_analysis/Plots/' + rel_type + '/' + ent_type + '/Statistics_' +
                    rel_type + '_' + ent_type + '.png', bbox_inches='tight')
     # plt.show()
 
@@ -82,7 +81,7 @@ def draw_global_centralities(global_dict_list, rel_type, ent_type):
 
     figure.suptitle('Graph Centralities\n' + rel_type + " " + ent_type)
     plt.tight_layout(rect=[0, 0.03, 1, 0.95])
-    figure.savefig('Plots/' + rel_type + '/' + ent_type + '/Centralities_' +
+    figure.savefig('/home/iraklis/PycharmProjects/graph_analysis/Plots/' + rel_type + '/' + ent_type + '/Centralities_' +
                    rel_type + '_' + ent_type + '.png', bbox_inches='tight')
 
 
